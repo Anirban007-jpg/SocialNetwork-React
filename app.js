@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const bodyparser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
+const expressValidator = require('express-validator');
 const dotenv = require('dotenv')
 dotenv.config();
 
@@ -23,6 +24,7 @@ mongoose.connection.on('error', err => {
 // MIDDLEWARES
 app.use(morgan("dev"));
 app.use(bodyparser.json());
+app.use(expressValidator());
 
 // Controllers
 
