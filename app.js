@@ -1,5 +1,6 @@
 const express = require('express');
 const postRoutes = require('./routes/post');
+const authRoutes = require('./routes/auth');
 const app = express();
 const mongoose = require('mongoose');
 const bodyparser = require('body-parser');
@@ -30,7 +31,7 @@ app.use(expressValidator());
 
 // bring in routes
 app.use('/', postRoutes);
-
+app.use('/', authRoutes);
 
 const port = process.env.PORT || 8080;
 
