@@ -4,6 +4,7 @@ const authRoutes = require('./routes/auth');
 const app = express();
 const mongoose = require('mongoose');
 const bodyparser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const cors = require('cors');
 const expressValidator = require('express-validator');
@@ -26,6 +27,7 @@ mongoose.connection.on('error', err => {
 app.use(morgan("dev"));
 app.use(bodyparser.json());
 app.use(expressValidator());
+app.use(cookieParser());
 
 // Controllers
 
