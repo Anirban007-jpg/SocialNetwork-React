@@ -1,10 +1,9 @@
 const express = require('express');
+const { getPosts } = require('./routes/post');
 const app = express();
 
-
-app.get('/', (req, res) => {
-    res.send("Hello world from node.js");
-});
+// bring in routes
+app.get('/', getPosts);
 
 const port = process.env.PORT|| 5000
 
