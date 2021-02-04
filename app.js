@@ -1,6 +1,14 @@
 const express = require('express');
 const { getPosts } = require('./routes/post');
 const app = express();
+const morgan = require('morgan');
+const cors = require('cors');
+
+
+
+// MIDDLEWARES
+app.use(morgan("dev"));
+
 
 // bring in routes
 app.get('/', getPosts);
