@@ -1,0 +1,26 @@
+For Use of Help Only
+
+                                    Steps to IMPLEMENT AUTHORIZATION AND AUTHENTICATION
+
+FIRST STEP
+
+----------
+----------
+
+A request is sent to profile update
+    That is what url will look like
+        http://localhost:8080/profile/userid9354
+
+when there is userid in the upcomming request(url)
+    based on that userid
+        our backend will make a query to the dtatabase and load the user information (name, email, etc)
+            then we will add that information to the request object
+            like so: req.profile = userInformation
+
+SECOND STEP
+
+-----------
+-----------
+
+add a property called auth in requireSignin()
+    so that we know that the user is authenticated
