@@ -19,7 +19,9 @@ exports.createPost = (req, res) => {
                 error: "Your image could not be uploaded"
             })
         }
-        let post = new post(fields);
+        let post = new Post(fields);
+        req.profile.hashed_password = undefined;
+        req.profile.salt = undefined;
         post.postedBy = req.profile;
         if (files.photo) {
             post.photo.data = fs.readFileSync(files.photo.path);
