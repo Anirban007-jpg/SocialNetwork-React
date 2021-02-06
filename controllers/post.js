@@ -3,7 +3,9 @@ const fro = require('formidable');
 const fs = require('fs');
 
 exports.getPosts = (req, res) => {
-    const post = Post.find().select("_id title body")
+    const post = Post.find()
+    .populate("postedBy", "_id name")
+    .select("_id title body")
     .then((posts) => {
         res.status(200).json({ posts: posts})
     })
