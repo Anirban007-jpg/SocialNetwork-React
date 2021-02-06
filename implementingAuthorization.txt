@@ -24,3 +24,13 @@ SECOND STEP
 
 add a property called auth in requireSignin()
     so that we know that the user is authenticated
+
+
+THIRD STEP
+
+-----------
+-----------
+
+create hasAuthorization()
+    to make sure the req object has
+        req.profile && req.auth && req.profile._id === req.auth._id
