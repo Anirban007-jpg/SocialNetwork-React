@@ -12,7 +12,7 @@ const postSchema = new mongoose.Schema({
     },
     photo: {
         type: Buffer,
-        contenType: String
+        contentType: String
     },
     postedBy: {
         type: ObjectId,
