@@ -15,7 +15,7 @@ exports.userById = (req, res, next, id) => {
         req.profile = user;   // adds profile object in request with user info
         next();
     })
-}
+};
 
 exports.hasAuthorization = (req, res, next) => {
     const authorized = req.profile && req.auth && req.profile._id === req.auth._id;
@@ -27,7 +27,7 @@ exports.hasAuthorization = (req, res, next) => {
     }
 
     next();
-}
+};
 
 exports.allUsers = (req, res) => {
     User.find((err, users) => {
@@ -38,13 +38,13 @@ exports.allUsers = (req, res) => {
         }
         res.json({ users })
     }).select("name email created updated ");
-}
+};
 
 exports.getUser = (req, res) => {
     req.profile.hashed_password = undefined;
     req.profile.salt = undefined;
     return res.json(req.profile);
-}
+};
 
 exports.updateUser = (req, res, next) => {
     let user = req.profile;
@@ -72,4 +72,5 @@ exports.deleteUser = (req, res, next) => {
         }
         res.json({ message: "User deleted successfully" });
     })
-}
+};
+
