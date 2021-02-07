@@ -56,5 +56,6 @@ exports.requireSignin = expressJwt({
     // if the token is valid, express jwt appends the verified users id
     // in any auth key to request object
     secret: process.env.JWT_SECRET,
-    algorithms: ['HS256'] 
+    algorithms: ['HS256'] ,
+    userProperty: "auth"
 });
