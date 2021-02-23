@@ -6,7 +6,7 @@ const { requireSignin } = require('../controllers/auth');
 
 const router = express.Router();
 
-router.get('/',getPosts);
+router.get('/posts',getPosts);
 
 router.post('/post/new/:userId', requireSignin, createPost, createPostValidator);
 router.get("/post/by/:userId", requireSignin, postsbyuser);

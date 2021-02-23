@@ -1,0 +1,9 @@
+{
+    "/": "api docs",
+    "/posts" : "get all posts",
+    "/signin" : "signin endpoint",
+    "/signout" : "signout endpoint",
+    "/users": "get all users",
+    "/user/:userId": "get/update/delete user endpoint"
+
+}

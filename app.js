@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const cors = require('cors');
 const expressValidator = require('express-validator');
+const fs = require('fs');
 const dotenv = require('dotenv')
 dotenv.config();
 
@@ -43,6 +44,21 @@ app.use(function (err, req, res, next) {
         });
     }
 });
+
+// Api Docs
+
+app.get('/', (req,res) => {
+    fs.readFile('docs/apiDocs.json', (err, data) => {
+        if (err) {
+            res.status(400).json({
+                error: err
+            })
+        }
+
+        const docs = JSON.parse(data);
+        res.json(docs);
+    })
+})
 
 
 const port = process.env.PORT || 8080;
