@@ -6,8 +6,8 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyparser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const morgan = require('morgan');
 const cors = require('cors');
+const morgan = require('morgan');
 const expressValidator = require('express-validator');
 const fs = require('fs');
 const dotenv = require('dotenv')
@@ -29,6 +29,7 @@ mongoose.connection.on('error', err => {
 app.use(morgan("dev"));
 app.use(bodyparser.json());
 app.use(expressValidator());
+app.use(cors());
 app.use(cookieParser());
 
 // Controllers
