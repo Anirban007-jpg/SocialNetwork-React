@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom';
 
 class signin extends Component {
 
@@ -17,6 +18,13 @@ class signin extends Component {
         this.setState({ [name]: event.target.value });
     }
 
+    authenticate (jwt, next) {
+        if (typeof window !== "undefined"){
+            localStorage.setItem("jwt", JSON.stringify(jwt));
+            next();
+        }
+    }
+
     clickSubmit = event => {
         event.preventDefault();
         const {email, password} = this.state;
@@ -30,19 +38,20 @@ class signin extends Component {
         this.signin(user).then(data => {
             if(data.error){
                 this.setState({error: data.error})
-            }else{
-                this.setState({
-                    email: "",
-                    password: "",
-                    error: "",
-                    redirect: true
+            }
+            else
+            {
+                // authenticate
+                this.authenticate(data, () => {
+                    this.setState({redirect: true});
                 });
+                // redirect   
             }
         });
     }
 
     signin = user => {
-        return fetch("http://localhost:5000/signup", {
+        return fetch("http://localhost:5000/signin", {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -71,7 +80,10 @@ class signin extends Component {
     )
 
     render() {
-        const {email, password, error} = this.state;
+        const {email, password, error, redirect} = this.state;
+        if (redirect) {
+            return <Redirect to="/" />
+        }
         return (
             <div className="container">
                 <h2 className="mt-5 mb-5">Log In to start your Session</h2>
