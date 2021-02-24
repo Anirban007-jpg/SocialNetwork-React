@@ -16,6 +16,29 @@ class signup extends Component {
         this.setState({ [name]: event.target.value });
     }
 
+    clickSubmit = event => {
+        event.preventDefault();
+        const {name, email, password} = this.state;
+        const user = {
+            name,
+            email,
+            password
+        };
+        // using for debug purpose
+        //console.log(user);
+        // now doing post request
+        fetch("http://localhost:5000/signup", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user)
+        }).then(response => {
+            return response.json()
+        }).catch(err => console.log(err))
+    }
+
     render() {
         const {name, email, password} = this.state;
         return (
@@ -35,10 +58,9 @@ class signup extends Component {
                             <label className="text-muted"><b>Password</b></label>
                             <input onChange={this.handleChange("password")} type="password" className="form-control" placeholder="Enter the password to be set..." value={password} />
                         </div>
-                        <button className="btn btn-raised btn-success">
+                        <button onClick={this.clickSubmit} className="btn btn-raised btn-success">
                             Submit
                         </button>&nbsp;
-                        <input type="reset" className="btn btn-raised btn-danger" value="reset" />
                     </form>
             </div>
         );
