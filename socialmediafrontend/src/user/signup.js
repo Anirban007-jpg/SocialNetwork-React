@@ -27,7 +27,22 @@ class signup extends Component {
         // using for debug purpose
         //console.log(user);
         // now doing post request
-        fetch("http://localhost:5000/signup", {
+        this.signup(user).then(data => {
+            if(data.error){
+                this.setState({error: data.error})
+            }else{
+                this.setState({
+                    name: "",
+                    email: "",
+                    password: "",
+                    error: ""
+                });
+            }
+        });
+    }
+
+    signup = user => {
+        return fetch("http://localhost:5000/signup", {
             method: "POST",
             headers: {
                 Accept: "application/json",
