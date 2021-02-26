@@ -10,6 +10,19 @@ const isActive = (history, path) => {
     }
 }
 
+export const isAuthenticated = () => {
+    if (typeof window == "undefined"){
+        return false;
+    }
+
+    if (localStorage.getItem('jwt')){
+        return JSON.parse(localStorage.getItem('jwt'));
+    } else {
+        return false;
+    }
+
+};
+
 export const signout = (next) => {
     if (typeof window!== "undefined"){
         localStorage.removeItem('jwt');
@@ -43,26 +56,43 @@ const Menu = ({history}) => (
                                     </strong>
                                 </Link>
                             </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" style={isActive(history, "/signin")} to="/signin">
-                                    <strong>
-                                        Sign In
-                                    </strong>
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" style={isActive(history, "/signup")} to="/signup">
-                                    <strong>
-                                        Sign Up
-                                    </strong>
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" style={isActive(history, "/signout") , {cursor: "pointer", color:"#fff"}} onClick={() => signout(() => history.push('/'))} href=""> 
-                                    Sign Out
-                                </a>
-                            </li>
-                            {/* for debug purpose */}
+                            {!isAuthenticated() && (
+                                <>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" style={isActive(history, "/signin")} to="/signin">
+                                            <strong>
+                                                Sign In
+                                            </strong>
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" style={isActive(history, "/signup")} to="/signup">
+                                            <strong>
+                                                Sign Up
+                                            </strong>
+                                        </Link>
+                                    </li>        
+                                </>
+                            )}
+                            {isAuthenticated() && (
+                                <>
+                                    <li className="nav-item">
+                                        <a className="nav-link" style={isActive(history, "/signout") , {cursor: "pointer", color:"#fff"}} onClick={() => signout(() => history.push('/'))} href=""> 
+                                            <strong>   
+                                                Sign Out
+                                            </strong>
+                                        </a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a className="nav-link">
+                                            <strong>
+                                                Hello {isAuthenticated().user.name} .....
+                                            </strong>
+                                        </a>
+                                    </li>
+                                </>
+                            )}
+                            {/* for debug porpose */}
                             {/* {JSON.stringify(props.history)}
                         //    We got this as output
                            {"length":10,"action":"PUSH","location":{"pathname":"/signup","search":"","hash":"","key":"xsn24c"}} */}
