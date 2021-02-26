@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
+import { signout, isAuthenticated } from '../Auth/index'
 
 const isActive = (history, path) => {
     if (history.location.pathname === path){
@@ -7,34 +8,6 @@ const isActive = (history, path) => {
     }
     else {
         return {color: "#ffffff"}
-    }
-}
-
-export const isAuthenticated = () => {
-    if (typeof window == "undefined"){
-        return false;
-    }
-
-    if (localStorage.getItem('jwt')){
-        return JSON.parse(localStorage.getItem('jwt'));
-    } else {
-        return false;
-    }
-
-};
-
-export const signout = (next) => {
-    if (typeof window!== "undefined"){
-        localStorage.removeItem('jwt');
-        next();
-        return fetch("http://localhost:5000/signout", {
-            method: "GET"
-        }).then(response => {
-            console.log('signout', response);
-            return response.json();
-        }).catch(err => {
-            console.log("error", err);
-        })
     }
 }
 
@@ -84,6 +57,7 @@ const Menu = ({history}) => (
                                         </a>
                                     </li>
                                     <li className="nav-item">
+                                    {/* // eslint-disable-next-line */}
                                         <a className="nav-link">
                                             <strong>
                                                 Hello {isAuthenticated().user.name} .....

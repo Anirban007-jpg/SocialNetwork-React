@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom';
-import { isAuthenticated } from '../core/Menu';
+import { signin, authenticate } from '../Auth/index'
 
-class signin extends Component {
+class Signin extends Component {
 
     constructor() {
         super()
@@ -20,12 +20,6 @@ class signin extends Component {
         this.setState({ [name]: event.target.value });
     }
 
-    authenticate (jwt, next) {
-        if (typeof window !== "undefined"){
-            localStorage.setItem("jwt", JSON.stringify(jwt));
-            next();
-        }
-    }
 
     clickSubmit = event => {
         event.preventDefault();
@@ -38,14 +32,14 @@ class signin extends Component {
         // using for debug purpose
         //console.log(user);
         // now doing post request
-        this.signin(user).then(data => {
+        signin(user).then(data => {
             if(data.error){
                 this.setState({error: data.error, loading: false})
             }
             else
             {
                 // authenticate
-                this.authenticate(data, () => {
+                authenticate(data, () => {
                     this.setState({redirect: true});
                 });
                 // redirect   
@@ -53,18 +47,7 @@ class signin extends Component {
         });
     }
 
-    signin = user => {
-        return fetch("http://localhost:5000/signin", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(user),
-        }).then(response => {
-            return response.json();
-        }).catch(err => console.log(err))
-    }
+   
 
     signinForm = (email, password) => (
         <form>
@@ -112,4 +95,4 @@ class signin extends Component {
     }
 }
 
-export default signin;
+export default Signin;

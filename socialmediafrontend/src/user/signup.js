@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import { signup } from '../Auth/index'
 
-class signup extends Component {
+class Signup extends Component {
 
     constructor() {
         super()
@@ -29,7 +30,7 @@ class signup extends Component {
         // using for debug purpose
         //console.log(user);
         // now doing post request
-        this.signup(user).then(data => {
+        signup(user).then(data => {
             if(data.error){
                 this.setState({error: data.error})
             }else{
@@ -44,18 +45,6 @@ class signup extends Component {
         });
     }
 
-    signup = user => {
-        return fetch("http://localhost:5000/signup", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(user)
-        }).then(response => {
-            return response.json()
-        }).catch(err => console.log(err))
-    }
 
     signupForm = (name, email, password) => (
         <form>
@@ -98,4 +87,4 @@ class signup extends Component {
     }
 }
 
-export default signup;
+export default Signup;
