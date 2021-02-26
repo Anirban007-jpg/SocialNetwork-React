@@ -10,37 +10,57 @@ const isActive = (history, path) => {
     }
 }
 
+export const signout = (next) => {
+    if (typeof window!== "undefined"){
+        localStorage.removeItem('jwt');
+        next();
+        return fetch("http://localhost:5000/signout", {
+            method: "GET"
+        }).then(response => {
+            console.log('signout', response);
+            return response.json();
+        }).catch(err => {
+            console.log("error", err);
+        })
+    }
+}
+
 const Menu = ({history}) => (
     <div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-            <div class="container-fluid">
-                <Link class="navbar-brand" to="/">
+        <nav className="navbar navbar-expand-lg navbar-light bg-primary">
+            <div className="container-fluid">
+                <Link className="navbar-brand" to="/">
                     <strong>
                         AniSus
                     </strong>
                 </Link>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <Link class="nav-link" style={isActive(history, "/")} aria-current="page" to="/">
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li className="nav-item">
+                                <Link className="nav-link" style={isActive(history, "/")} aria-current="page" to="/">
                                     <strong>
                                         Home
                                     </strong>
                                 </Link>
                             </li>
-                            <li class="nav-item">
-                                <Link class="nav-link" style={isActive(history, "/signin")} to="/signin">
+                            <li className="nav-item">
+                                <Link className="nav-link" style={isActive(history, "/signin")} to="/signin">
                                     <strong>
                                         Sign In
                                     </strong>
                                 </Link>
                             </li>
-                            <li class="nav-item">
-                                <Link class="nav-link" style={isActive(history, "/signup")} to="/signup">
+                            <li className="nav-item">
+                                <Link className="nav-link" style={isActive(history, "/signup")} to="/signup">
                                     <strong>
                                         Sign Up
                                     </strong>
                                 </Link>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" style={isActive(history, "/signout") , {cursor: "pointer", color:"#fff"}} onClick={() => signout(() => history.push('/'))} href=""> 
+                                    Sign Out
+                                </a>
                             </li>
                             {/* for debug purpose */}
                             {/* {JSON.stringify(props.history)}
