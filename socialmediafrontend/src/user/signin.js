@@ -9,7 +9,8 @@ class signin extends Component {
             email: "",
             password: "",
             error: "", 
-            redirect: false
+            redirect: false,
+            loading: false
         }
     }
 
@@ -27,6 +28,7 @@ class signin extends Component {
 
     clickSubmit = event => {
         event.preventDefault();
+        this.setState({loading:true});
         const {email, password} = this.state;
         const user = {
             email,
@@ -37,7 +39,7 @@ class signin extends Component {
         // now doing post request
         this.signin(user).then(data => {
             if(data.error){
-                this.setState({error: data.error})
+                this.setState({error: data.error, loading: false})
             }
             else
             {
@@ -80,7 +82,7 @@ class signin extends Component {
     )
 
     render() {
-        const {email, password, error, redirect} = this.state;
+        const {email, password, error, redirect, loading} = this.state;
         if (redirect) {
             return <Redirect to="/" />
         }
@@ -88,10 +90,17 @@ class signin extends Component {
             <div className="container">
                 <h2 className="mt-5 mb-5">Log In to start your Session</h2>
 
+
                 <div className="alert alert-danger" style={{display: error ? "" : "none"}}>
                     {error}
                 </div>
 
+                {loading ? 
+                    <div className="spinner-border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div> 
+                    : 
+                    ""}
 
                     
                    {this.signinForm(email, password)}
