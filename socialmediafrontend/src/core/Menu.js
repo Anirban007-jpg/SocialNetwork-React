@@ -59,9 +59,11 @@ const Menu = ({history}) => (
                                     <li className="nav-item">
                                     {/* // eslint-disable-next-line */}
                                         <a className="nav-link">
-                                            <strong>
-                                                Hello {isAuthenticated().user.name} .....
-                                            </strong>
+                                            <Link to={`/user/${isAuthenticated().user._id}`} style={{color: '#fff'}}>
+                                                <strong>
+                                                    {`${isAuthenticated().user.name}'s profile`}
+                                                </strong>
+                                            </Link>
                                         </a>
                                     </li>
                                 </>
