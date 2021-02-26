@@ -42,6 +42,7 @@ class Signin extends Component {
                 authenticate(data, () => {
                     this.setState({redirect: true});
                 });
+                //console.log(process.env.REACT_APP_API_URL);
                 // redirect   
             }
         });
