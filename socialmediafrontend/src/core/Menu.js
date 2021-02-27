@@ -29,6 +29,13 @@ const Menu = ({history}) => (
                                     </strong>
                                 </Link>
                             </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" style={isActive(history, "/users")} aria-current="page" to="/users">
+                                    <strong>
+                                        Users
+                                    </strong>
+                                </Link>
+                            </li>
                             {!isAuthenticated() && (
                                 <>
                                     <li className="nav-item">
