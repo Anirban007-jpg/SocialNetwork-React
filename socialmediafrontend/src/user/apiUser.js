@@ -10,3 +10,11 @@ export const read = (userId, token) => {
         return response.json();
     })
 }
+
+export const list = () => {
+    return fetch(`${process.env.REACT_APP_API_URL}/users`, {
+        method: "GET",
+    }).then(response => {
+        return response.json();
+    })
+}
