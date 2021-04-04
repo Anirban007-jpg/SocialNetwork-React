@@ -3,6 +3,7 @@ import { Redirect, Link } from 'react-router-dom';
 import { isAuthenticated } from '../Auth/index'
 import { read } from './apiUser';
 import DefaultProfile from "../images/images.png"
+import DeleteUser from './DeleteUser';
 
 class Profile extends Component {
     constructor() {
@@ -30,6 +31,11 @@ class Profile extends Component {
         this.init(userId);
     }
 
+    componentWillReceiveProps(props){
+        const userId = props.match.params.userId;
+        this.init(userId);
+    }
+
     render() {
 
         const {user} = this.state;
@@ -47,23 +53,21 @@ class Profile extends Component {
                     </div>
                 
                     <div className="col-md-6">
-                    <div className="lead mt-2">
-                            <p>Hello {user.name}</p>
-                            <p>Email: {user.email}</p>
-                            <p>{`Joined ${new Date(created).toDateString()}`}</p>
-                        </div>
-                        {isAuthenticated().user && isAuthenticated().user._id === _id && (
-                            <div className="d-inline-block mt-5">
-                                <Link className="btn btn-raised btn-success mr-5" to={`/user/edit/${_id}`}>
-                                    Edit Profile
-                                </Link>
-                                <Link className="btn btn-raised btn-danger mr-5" to={`/user/delete/${_id}`}>
-                                    Delete Profile
-                                </Link>
+                        <div className="lead mt-2">
+                                <p>Hello {user.name}</p>
+                                <p>Email: {user.email}</p>
+                                <p>{`Joined ${new Date(created).toDateString()}`}</p>
                             </div>
-                        )}
-                        
-                    </div>
+                            {isAuthenticated().user && isAuthenticated().user._id === _id && (
+                                <div className="d-inline-block mt-5">
+                                    <Link className="btn btn-raised btn-success mr-5" to={`/user/edit/${_id}`}>
+                                        Edit Profile
+                                    </Link>
+                                    <DeleteUser />
+                                </div>
+                            )}
+                            
+                        </div>
                 </div>
             </div>
         );
