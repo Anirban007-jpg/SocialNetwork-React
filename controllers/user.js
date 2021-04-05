@@ -1,8 +1,7 @@
 const _ = require('lodash');
-const { userSignupValidator } = require('../helpers');
-const user = require('../models/user');
 const User = require('../models/user');
-
+const f = require('formidable');
+const fs = require('fs')
 
 exports.userById = (req, res, next, id) => {
     User.findById(id)
@@ -47,20 +46,33 @@ exports.getUser = (req, res) => {
 };
 
 exports.updateUser = (req, res, next) => {
-    let user = req.profile;
-    user = _.extend(user, req.body)   // extend - mutate the source object
-    user.updated = Date.now();
-    user.save((err) => {
-        if (err) {
+    let form = new f.IncomingForm();
+    form.keepExtensions = true;
+    form.parse(req, (err, fields, files) => {
+        if(err) {
             return res.status(400).json({
-                error: "You are not authorized to perfrom this action"
+                error: "Photo could not be uploaded"
             })
         }
-        user.hashed_password = undefined;
-        user.salt = undefined;
-        res.json({user});
-    });
-};
+        let user = req.profile;
+        user = _.extend(user, fields)   // extend - mutate the source object
+        user.updated = Date.now();
+        if (files.photo){
+            user.photo.data = fs.readFileSync(files.photo.path);
+            user.photo.contentType = files.photo.type;
+        }
+        user.save((err, user) => {
+        if (err) {
+                return res.status(400).json({
+                    error: "You are not authorized to perfrom this action"
+                })
+            }
+            user.hashed_password = undefined;
+            user.salt = undefined;
+            res.json(user);
+        })
+    })
+}
 
 exports.deleteUser = (req, res, next) => {
     let user =req.profile;
@@ -74,3 +86,10 @@ exports.deleteUser = (req, res, next) => {
     })
 };
 
+exports.userPhoto = (req,res,next) => {
+    if (req.profile.photo.data){
+        res.set("Content-Type", req.profile.photo.contentType)
+        return res.send(req.profile.photo.data)
+    }
+    next();
+}
