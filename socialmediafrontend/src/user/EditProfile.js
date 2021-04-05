@@ -13,7 +13,8 @@ class EditProfile extends Component {
             email: "",
             password: "",
             redirectToProfile: false,
-            error : ""
+            error : "",
+            open: false
         }
     }
 
