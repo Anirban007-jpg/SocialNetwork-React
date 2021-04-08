@@ -5,6 +5,7 @@ import { read } from './apiUser';
 import DefaultProfile from "../images/images.png"
 import DeleteUser from './DeleteUser';
 import FollowProfileButton from './FollowProfileButton';
+import ProfileTabs from './ProfileTabs';
 
 class Profile extends Component {
     constructor() {
@@ -93,7 +94,8 @@ class Profile extends Component {
                                         Edit Profile
                                     </Link>
                                     <DeleteUser userId={user._id}/>
-                                </div>
+                                    
+                                 </div>
                             ): (
                                 <FollowProfileButton 
                                 following={this.state.following}
@@ -108,6 +110,7 @@ class Profile extends Component {
                                     {user.about}
                                 </p>
                                 <hr/>
+                                <ProfileTabs following={user.following} followers={user.followers}  />
                             </div>
                         </div>
                 </div>
