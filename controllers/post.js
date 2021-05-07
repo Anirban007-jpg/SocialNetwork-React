@@ -8,7 +8,7 @@ exports.postById = (req, res, next, id) => {
     .populate("postedBy", "_id name")
     .exec((err,post) => {
         if (err||!post) {
-            return res.status.json({
+            return res.status(400).json({
                 error: err
             });
         }
@@ -120,4 +120,8 @@ exports.postPhoto = (req,res,next) => {
         return res.send(req.post.photo.data)
     }
     next();
+}
+
+exports.singlePost = (req,res) => {
+    return res.json(req.post);
 }

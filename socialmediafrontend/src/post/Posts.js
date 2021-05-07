@@ -3,6 +3,7 @@ import { list } from "./apiPost";
 import DefaultProfile from "../images/images.png"
 import { Link } from 'react-router-dom';
 
+
 class Posts extends Component {
     
     constructor() {
