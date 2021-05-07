@@ -58,7 +58,16 @@ const Menu = ({history}) => (
                                 <>
                                     <li className="nav-item">
                                         <Link to={`/findpeople`} style={isActive(history, `/findpeople`)} className="nav-link">
-                                            Find People
+                                            <strong>
+                                                Find People
+                                            </strong>
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link to={`/post/create`} style={isActive(history, `/post/create`)} className="nav-link">
+                                            <strong>
+                                                Post Management
+                                            </strong>
                                         </Link>
                                     </li>
                                     <li className="nav-item">
