@@ -10,3 +10,12 @@ export const create = (userId, token, post) => {
         return response.json();
     })
 }
+
+
+export const list = () => {
+    return fetch(`${process.env.REACT_APP_API_URL}/posts`, {
+        method: "GET",
+    }).then(response => {
+        return response.json();
+    })
+}
