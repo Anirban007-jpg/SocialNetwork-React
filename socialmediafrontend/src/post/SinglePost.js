@@ -28,7 +28,7 @@ class SinglePost extends Component {
                         <img src={`${process.env.REACT_APP_API_URL}/post/photo/${post._id}`} onError={i => (i.target.src = `${DefaultProfile}`)} alt={post.name} style={{height: "300px", width: "100%", objectFit: "cover"}} className="img-thumbnail" />
                         <br/><br/>
                     <h5 className="card-title">TITLE OF THE POST : </h5>
-                    <h5 className="card-title">{post.title}</h5><br/>
+                    <p className="card-text">{post.title}</p><br/>
                     <h5 className="card-title">CONTENT OF THE POST : </h5>
                     <p className="card-text">
                         {post.body}
@@ -50,8 +50,17 @@ class SinglePost extends Component {
         return (
             <div className="container">
                 <br/>
-                <h2 className="display-2 mt-5 mb-5"><strong><ul>{post.title}:-</ul></strong></h2>
-                {this.renderPost(post)}
+                {!post ? 
+                    <div className="jumbotron text-center">
+                        <h2>Loading...</h2>
+
+                    </div> 
+                    :
+                    <>
+                        <h2 className="display-2 mt-5 mb-5"><strong><ul>{post.title}:-</ul></strong></h2>
+                        {this.renderPost(post)}
+                    </> 
+                    }
             </div>
         )
     }
