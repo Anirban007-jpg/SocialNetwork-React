@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { isAuthenticated } from '../Auth/index'
 // import DefaultProfile from "../images/images.png"
 import { create } from './apiPost';
+import { Link } from "react-router-dom";
 
 class NewPost extends Component {
 
@@ -90,6 +91,11 @@ class NewPost extends Component {
                 <button onClick={this.clickSubmit} className="btn btn-raised btn-success">
                     Create Post
                 </button>&nbsp;
+                 <div>
+                        <Link className="btn btn-raised btn-info mr-5" to={`/user/:userId`}>
+                            GO BACK
+                        </Link>
+                </div>
         </form>
     )
 

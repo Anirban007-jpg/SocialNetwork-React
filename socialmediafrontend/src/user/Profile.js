@@ -6,6 +6,7 @@ import DefaultProfile from "../images/images.png"
 import DeleteUser from './DeleteUser';
 import FollowProfileButton from './FollowProfileButton';
 import ProfileTabs from './ProfileTabs';
+import { listByUser } from '../post/apiPost';
 
 class Profile extends Component {
     constructor() {
@@ -14,7 +15,8 @@ class Profile extends Component {
             user: {following: [], followers: []},
             redirectToSignin: false,
             following: false,
-            error: ''
+            error: '',
+            posts: []
         }
     }
 
@@ -50,6 +52,18 @@ class Profile extends Component {
             else {
                 let following = this.checkFollow(data);
                 this.setState({ user: data, following });
+                this.loadPosts(data._id);
+            }
+        })
+    }
+
+    loadPosts = (userId) => {
+        const token = isAuthenticated().token;
+        listByUser(userId, token).then(data => {
+            if (data.error) {
+                console.log(data.error);
+            }else{
+                this.setState({posts : data.posts})
             }
         })
     }
@@ -66,7 +80,7 @@ class Profile extends Component {
 
     render() {
 
-        const {user} = this.state;
+        const {user, posts} = this.state;
         const {redirectToSignin, _id, created} = this.state.user;
 
         if (redirectToSignin){
@@ -89,13 +103,19 @@ class Profile extends Component {
                                 <p>{`Joined ${new Date(created).toDateString()}`}</p>
                             </div>
                             {isAuthenticated().user && isAuthenticated().user._id === _id ? (
-                                <div className="d-inline-block mt-5">
-                                    <Link className="btn btn-raised btn-success mr-5" to={`/user/edit/${_id}`}>
-                                        Edit Profile
-                                    </Link>
+                                <>
+                                    <div className="d-inline-block">
+                                        <Link className="btn btn-raised btn-info mr-5" to={`/post/create`}>
+                                            Create Post
+                                        </Link>
+                                    </div>
+                                    <div className="d-inline-block mt-5">
+                                        <Link className="btn btn-raised btn-success mr-5" to={`/user/edit/${_id}`}>
+                                            Edit Profile
+                                        </Link>
                                     <DeleteUser userId={user._id}/>
-                                    
                                  </div>
+                                </>
                             ): (
                                 <FollowProfileButton 
                                 following={this.state.following}
@@ -110,7 +130,7 @@ class Profile extends Component {
                                     {user.about}
                                 </p>
                                 <hr/>
-                                <ProfileTabs following={user.following} followers={user.followers}  />
+                                <ProfileTabs following={user.following} followers={user.followers} posts={posts}  />
                             </div>
                         </div>
                 </div>
