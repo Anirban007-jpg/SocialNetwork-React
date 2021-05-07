@@ -1,12 +1,14 @@
 import React from 'react'
 import { Component } from 'react'
-import { singlePost } from './apiPost'
+import { remove, singlePost } from './apiPost'
 import DefaultProfile from "../images/images.png"
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { isAuthenticated } from '../Auth/index'
 
 class SinglePost extends Component {
     state = {
-        post: ""
+        post: "",
+        redirecttoHome: false
     }
 
     componentDidMount = () => {
@@ -19,6 +21,21 @@ class SinglePost extends Component {
             }
         })
     };
+
+    clcikDelete = () => {
+        const postId = this.props.match.params.postId;
+        const token = isAuthenticated().token;
+        let answer = window.confirm("Are you sure you want to delete your account?");
+        if (answer){
+            remove(postId, token).then(data => {
+                if (data.error){
+                    console.log(data.error);
+                }else{
+                    this.setState({redirecttoHome: true})
+                }
+            })
+        }
+    }
 
     renderPost = post => {
         const posterId = post.postedBy ? post.postedBy._id : ""
@@ -38,15 +55,31 @@ class SinglePost extends Component {
                         Posted By: <Link to={`/user/${posterId}`}>{posterName}</Link><br/>
                         Created on : {new Date(post.created).toDateString()}
                     </p>
-                    <Link to={`/`} className="btn btn-primary btn-raised btn-sm">
-                        Back to Home Page
+                    <Link to={`/`} className="btn btn-primary btn-raised btn-sm mr-5">
+                            Back to Home Page
                     </Link>
+                    {isAuthenticated().user && isAuthenticated().user._id === post.postedBy._id &&
+                    <>
+                        <button className="btn btn-raised btn-warning mr-5">
+                            Update Post
+                        </button>
+                        <button onClick={this.clcikDelete} className="btn btn-raised btn-danger mr-5">
+                            Delete Post
+                        </button>
+                       
+                    </>
+                    }
                 </div>
         );
     }
 
     render(){
         const {post} = this.state;
+
+        if (this.state.redirecttoHome){
+            return <Redirect to={`/`} />;
+        }
+
         return (
             <div className="container">
                 <br/>

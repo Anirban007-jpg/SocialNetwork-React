@@ -64,13 +64,6 @@ const Menu = ({history}) => (
                                         </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link to={`/post/create`} style={isActive(history, `/post/create`)} className="nav-link">
-                                            <strong>
-                                                Post Management
-                                            </strong>
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
                                         <span className="nav-link" style={{cursor: "pointer", color:"#fff"}} onClick={() => signout(() => history.push('/'))} href=""> 
                                             <strong>   
                                                 Sign Out
