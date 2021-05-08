@@ -121,10 +121,18 @@ class Profile extends Component {
                                 </div>
                             </div>
                             ): (
+                                <>
                                 <FollowProfileButton 
                                 following={this.state.following}
                                 onButtonClick={this.clickFollowButton}
                                 />
+                                <Link
+                                        className="btn btn-raised btn-primary mr-5"
+                                        to={`/post/create`}
+                                    >
+                                        Create Post
+                                 </Link>
+                                 </>
                             )}
                             
                         </div>
