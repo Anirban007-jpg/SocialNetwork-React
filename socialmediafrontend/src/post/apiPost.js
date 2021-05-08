@@ -118,7 +118,7 @@ export const comment = (userId, token, postId, comment) => {
     })
 }
 
-export const comment = (userId, token, postId, comment) => {
+export const uncomment = (userId, token, postId, comment) => {
     return fetch(`${process.env.REACT_APP_API_URL}/post/uncomment`, {
         method: "PUT",
         headers: {
