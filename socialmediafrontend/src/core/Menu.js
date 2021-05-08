@@ -29,13 +29,6 @@ const Menu = ({history}) => (
                                     </strong>
                                 </Link>
                             </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" style={isActive(history, "/users")} aria-current="page" to="/users">
-                                    <strong>
-                                        Users
-                                    </strong>
-                                </Link>
-                            </li>
                             {!isAuthenticated() && (
                                 <>
                                     <li className="nav-item">
@@ -54,7 +47,7 @@ const Menu = ({history}) => (
                                     </li>        
                                 </>
                             )}
-                            {isAuthenticated() && (
+                            {isAuthenticated() && isAuthenticated().user.role === "subscriber" && (
                                 <>
                                     <li className="nav-item">
                                         <Link to={`/findpeople`} style={isActive(history, `/findpeople`)} className="nav-link">
@@ -71,12 +64,39 @@ const Menu = ({history}) => (
                                         </span>
                                     </li>
                                     <li className="nav-item">
+                                        <Link className="nav-link" style={isActive(history, "/users")} aria-current="page" to="/users">
+                                            <strong>
+                                                Users
+                                            </strong>
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item">
                                     {/* // eslint-disable-next-line */}
                                             <Link className="nav-link" to={`/user/${isAuthenticated().user._id}`} style={isActive(history, `/user/${isAuthenticated().user._id}`)}>
                                                 <strong>
                                                     {`${isAuthenticated().user.name}'s profile`}
                                                 </strong>
                                             </Link>
+                                    </li>
+                                </>
+                            )}
+                            {isAuthenticated() && isAuthenticated().user.role === "admin" && (
+                                <>
+                                    <li className="nav-item">
+                                        <Link
+                                            to={`/admin`}
+                                            style={isActive(history, `/admin`)}
+                                            className="nav-link"
+                                        >
+                                            <strong>Admin</strong>
+                                        </Link>
+                                    </li>
+                                        <li className="nav-item">
+                                        <span className="nav-link" style={{cursor: "pointer", color:"#fff"}} onClick={() => signout(() => history.push('/'))} href=""> 
+                                            <strong>   
+                                                Sign Out
+                                            </strong>
+                                        </span>
                                     </li>
                                 </>
                             )}
