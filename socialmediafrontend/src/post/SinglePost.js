@@ -4,6 +4,7 @@ import { remove, singlePost, like, unlike } from './apiPost'
 import DefaultProfile from "../images/images.png"
 import { Link, Redirect } from 'react-router-dom';
 import { isAuthenticated } from '../Auth/index'
+import Comment from './Comment';
 
 class SinglePost extends Component {
     state = {
@@ -11,7 +12,8 @@ class SinglePost extends Component {
         redirecttoHome: false,
         like: false,
         likes: 0,
-        RedirecttoSignin : false
+        redirecttoSignin : false,
+        comments: []
     }
 
     componentDidMount = () => {
@@ -72,6 +74,10 @@ class SinglePost extends Component {
         })
     }
 
+    updateComments = comments => {
+        this.setState({comments});
+    }
+
     renderPost = post => {
         const posterId = post.postedBy ? post.postedBy._id : ""
         const posterName = post.postedBy ? post.postedBy.name : ""
@@ -117,13 +123,13 @@ class SinglePost extends Component {
     }
 
     render(){
-        const {post, redirecttoHome, RedirecttoSignin} = this.state;
+        const {post, redirecttoHome, redirecttoSignin, comments} = this.state;
 
         if (redirecttoHome){
             return <Redirect to={`/`} />;
         }
 
-        if (RedirecttoSignin){
+        if (redirecttoSignin){
             return <Redirect to={`/signin`} />;
         }
 
@@ -140,6 +146,8 @@ class SinglePost extends Component {
                     <>
                         <h2 className="display-2 mt-5 mb-5"><strong><ul>{post.title}:-</ul></strong></h2>
                         {this.renderPost(post)}
+                        <hr style={{width:'100%'}}/>
+                        <Comment postId={post._id} comments={comments.reverse()} updateComments={this.updateComments} />
                     </> 
                     }
             </div>
