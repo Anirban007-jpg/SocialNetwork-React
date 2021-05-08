@@ -100,17 +100,31 @@ exports.deletePost = (req, res) => {
 }
 
 exports.updatePost = (req, res, next) => {
-    let post = req.post;
-    post = _.extend(post, req.body);
-    post.updated = Date.now();
-    post.save(err => {
-        if (err) {
+    let form = new fro.IncomingForm();
+    form.keepExtensions = true;
+    form.parse(req, (err, fields, files) => {
+        if(err) {
             return res.status(400).json({
-                error : err
+                error: "Photo could not be uploaded"
             })
         }
-
-        res.json(post);
+        let post = req.post;
+        post = _.extend(post, fields)   // extend - mutate the source object
+        post.updated = Date.now();
+        if (files.photo){
+            post.photo.data = fs.readFileSync(files.photo.path);
+            post.photo.contentType = files.photo.type;
+        }
+        post.save((err, post) => {
+        if (err) {
+                return res.status(400).json({
+                    error: "You are not authorized to perfrom this action"
+                })
+            }
+            // user.hashed_password = undefined;
+            // user.salt = undefined;
+            res.json(post);
+        })
     })
 }
 
