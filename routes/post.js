@@ -1,4 +1,4 @@
-const {getPosts, createPost, postsbyuser, postById, isPoster, deletePost, updatePost,postPhoto,singlePost} = require('../controllers/post');
+const {getPosts, createPost, postsbyuser, postById, isPoster, deletePost, updatePost,postPhoto,singlePost,like,unlike} = require('../controllers/post');
 const express  = require('express');
 const {createPostValidator} = require('../helpers/index');
 const {userById} = require('../controllers/user');
@@ -8,6 +8,11 @@ const router = express.Router();
 
 router.get('/posts',getPosts);
 
+// like unlike
+router.put('/post/like', requireSignin, like);
+router.put('/post/unlike', requireSignin, unlike);
+
+// crud posts operations
 router.post('/post/new/:userId', requireSignin, createPost);
 router.get("/post/by/:userId", requireSignin, postsbyuser);
 router.get("/post/:postId", singlePost);
@@ -15,6 +20,7 @@ router.delete('/post/:postId', requireSignin, isPoster, deletePost)
 router.put("/post/:postId", requireSignin, updatePost);
 
 
+// get post photo
 router.get("/post/photo/:postId", postPhoto);
 
 // any route containing :userId, our app will first execute userbyId
