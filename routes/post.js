@@ -1,4 +1,4 @@
-const {getPosts, createPost, postsbyuser, postById, isPoster, deletePost, updatePost,postPhoto,singlePost,like,unlike} = require('../controllers/post');
+const {getPosts, createPost, postsbyuser, postById, isPoster, deletePost, updatePost,postPhoto,singlePost,like,unlike,comment,uncomment} = require('../controllers/post');
 const express  = require('express');
 const {createPostValidator} = require('../helpers/index');
 const {userById} = require('../controllers/user');
@@ -11,6 +11,10 @@ router.get('/posts',getPosts);
 // like unlike
 router.put('/post/like', requireSignin, like);
 router.put('/post/unlike', requireSignin, unlike);
+
+// comment uncomment
+router.put('/post/comment', requireSignin, comment);
+router.put('/post/uncomment', requireSignin, uncomment);
 
 // crud posts operations
 router.post('/post/new/:userId', requireSignin, createPost);
